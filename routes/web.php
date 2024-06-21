@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Blog;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    //dd(Blog::find('first-blog'));
     return view('blogs');
 });
-Route::get('/blog', function(){
-    return view('blog');
-});
+Route::get('/blogs/{blog}', function($slug){
+    
+     return view('blog',[
+        'blog'=>Blog::find($slug)
+    ]);
+})->where('blog','[A-z\d\-_]+');
