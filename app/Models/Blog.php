@@ -10,12 +10,14 @@
         public $slug;
         public $intro;
         public $body;
-        public function __construct($title,$slug,$intro,$body)
+        public $date;
+        public function __construct($title,$slug,$intro,$body,$date)
         {
             $this->title = $title;
             $this->slug = $slug;
             $this->intro = $intro;
             $this->body = $body;
+            $this->date = $date;
         }
         public static function all()
         {
@@ -23,13 +25,13 @@
                     ->map(function ($file)
             {
                 $obj = YamlFrontMatter::parseFile($file);
-                return new Blog($obj->title,$obj->slug,$obj->intro,$obj->body());
-            });
+                return new Blog($obj->title,$obj->slug,$obj->intro,$obj->body(),$obj->date);
+            })->sortByDesc('date');
         }
         public static function find($slug)
         {
             $blogs = static::all();
-            return $blogs->firstWhere('slug',$slug);
+            return  $blogs->firstWhere('slug',$slug);
            // $path=resource_path("/blogs/$slug.html");
            // if(!file_exists($path)){
            //     return redirect('/');
