@@ -16,7 +16,9 @@ use App\Models\Blog;
 
 Route::get('/', function () {
     //dd(Blog::find('first-blog'));
-    return view('blogs');
+    return view('blogs',[
+        'blogs'=>Blog::all()
+    ]);
 });
 Route::get('/blogs/{blog}', function($slug){
     
