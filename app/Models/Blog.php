@@ -31,14 +31,15 @@
         public static function find($slug)
         {
             $blogs = static::all();
-            return  $blogs->firstWhere('slug',$slug);
-           // $path=resource_path("/blogs/$slug.html");
-           // if(!file_exists($path)){
-           //     return redirect('/');
-           // }
-           // return cache()->remember("posts.$slug",120, function() use ($path){
-           //     return file_get_contents($path);
-           // });
+            return $blogs->firstWhere('slug',$slug);
+        }
+        public static function findOrFail($slug)
+        {
+            $blog =static::find($slug);
+            if(!$blog){
+                abort(404);
+            }
+            return $blog;
         }
     }
 ?>
