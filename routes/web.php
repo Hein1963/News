@@ -20,7 +20,7 @@ Route::get('/', function () {
         'blogs'=>Blog::all()
     ]);
 });
-Route::get('/blogs/{blog}', function(Blog $blog){  //Blog::findOrFail($id)
+Route::get('/blogs/{blog:slug}', function(Blog $blog){
      return view('blog',[
         'blog'=>$blog
     ]);
