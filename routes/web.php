@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('blogs',[
-        'blogs'=>Blog::with('category')->get()
+        //'blogs'=>Blog::with('category','author')->get()
+        'blogs'=>Blog::all()
     ]);
 });
 Route::get('/blogs/{blog:slug}', function(Blog $blog){
@@ -27,6 +29,11 @@ Route::get('/blogs/{blog:slug}', function(Blog $blog){
 })->where('blog','[A-z\d\-_]+');
 Route::get('/categories/{category:slug}', function(Category $category){
     return view('blogs',[
-        'blogs'=>$category->blogs
+        'blogs'=>$category->blogs->load('author','category')
+    ]);
+});
+Route::get('/users/{user}',function (User $user){
+    return view('blogs',[
+        'blogs'=>$user->blogs->load('author','category')
     ]);
 });
