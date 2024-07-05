@@ -1,4 +1,4 @@
- @props(['blogs','categories','currentCategory'])
+ @props(['blogs','categories'])
 <section class="container text-center" id="blogs">
       <h1 class="display-5 fw-bold mb-4">Blogs</h1>
       <div class="">
@@ -16,9 +16,11 @@
           <option value="">Filter by Tag</option>
         </select>--}}
       </div>
-      <form action="" class="my-3">
+      <form action="" method="GET" class="my-3">
         <div class="input-group mb-3">
           <input
+            name="search"
+            value="{{request('search')}}"
             type="text"
             autocomplete="false"
             class="form-control"
@@ -34,10 +36,12 @@
         </div>
       </form>
       <div class="row">
-        @foreach($blogs as $blog)
+        @forelse($blogs as $blog)
             <div class="col-md-4 mb-4">
                 <x-blog-card :blog="$blog"/>
             </div>
-        @endforeach()
+        @empty
+        <p class="text-center">No Blogs Found.</p>
+        @endforelse()
       </div>
 </section>

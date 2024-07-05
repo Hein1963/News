@@ -17,9 +17,13 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
+    $blogs=Blog::latest();
+    if(request('search')){
+        $blogs=$blogs->where('title','LIKE','%'.request('search').'%');
+    }
     return view('blogs',[
         //'blogs'=>Blog::with('category','author')->get()
-        'blogs'=>Blog::latest()->get(),
+        'blogs'=>$blogs->get(),
         'categories'=>Category::all()
     ]);
 });
@@ -31,8 +35,7 @@ Route::get('/blogs/{blog:slug}', function(Blog $blog){
 Route::get('/categories/{category:slug}', function(Category $category){
     return view('blogs',[
         'blogs'=>$category->blogs->load('author','category'),
-        'categories'=>Category::all(),
-        'currentCategory'=>$category  
+        'categories'=>Category::all()
     ]);
 });
 Route::get('/users/{user:username}',function (User $user){
