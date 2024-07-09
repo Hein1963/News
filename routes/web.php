@@ -7,12 +7,11 @@ use App\Models\User;
 use App\Http\Controllers\BlogController;
 
 Route::get('/',[BlogController::class,'index']);
-Route::get('/blogs/{blog:slug}', [BlogController::class,'show']);
-
+Route::get('/blogs/{blog:slug}', [BlogController::class,'show'])->where('blog','[A-z\d\-_]+');
 Route::get('/categories/{category:slug}', function(Category $category){
     return view('blogs',[
         'blogs'=>$category->blogs->load('author','category'),
-        'categories'=>Category::all()
+        'categories'=>Category::all(),
     ]);
 });
 Route::get('/users/{user:username}',function (User $user){

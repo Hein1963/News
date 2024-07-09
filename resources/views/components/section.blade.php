@@ -42,6 +42,6 @@
             </div>
         @empty
         <p class="text-center" >No Blogs Found.</p>
-        @endforelse()
+        @endforelse
       </div>
 </section>
